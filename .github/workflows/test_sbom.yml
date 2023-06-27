@@ -1,0 +1,22 @@
+name: Run SBOM submodule test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  test_sbom:
+    name: Run SBOM submodule test
+    runs-on: ubuntu-20.04
+    container: espressif/idf:latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - run: |
+          pwd
+          echo $GITHUB_WORKSPACE
+          ls -la
+          cd $GITHUB_WORKSPACE
+          ls -la
+          python3 ${IDF_PATH}/tools/test_sbom/test_submodules.py
